@@ -3,20 +3,19 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LoginPage {
-    WebDriver driver;
+public class LoginPage extends BasePage {
     private final By userField = By.cssSelector("[id='user-name']");
     private final By passwordField = By.xpath("//*[@placeholder='Password']");
     private final By submitButton = By.cssSelector("[data-test='login-button']");
-    private final By lockedOutErrorMessage = By.xpath("//*[@data-test='error' and text()='Epic sadface: Sorry, this user has been locked out.']");
+    private final By errorMessage = By.xpath("//*[@data-test='error']");
     private final By errorMsg = By.xpath("//*[@data-test='error']");
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public void open() {
-        driver.get("https://www.saucedemo.com/");
+        driver.get(BASE_URL);
     }
 
     public void login(String login, String password) {
@@ -25,12 +24,11 @@ public class LoginPage {
         driver.findElement(submitButton).click();
     }
 
-    public String getLockedOutErrorMessageText() {
-        return driver.findElement(lockedOutErrorMessage).getText();
+    public String errorMessageText() {
+        return driver.findElement(errorMessage).getText();
     }
 
     public boolean isErrorMsgDisplayed() {
         return driver.findElement(errorMsg).isDisplayed();
     }
-
 }
